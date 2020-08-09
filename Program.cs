@@ -43,6 +43,7 @@ namespace dotnetCampus.UpdateAllDotNetTools
 
             line = stringReader.ReadLine();
             var regex = new Regex(@"(\S+)\s+", RegexOptions.Compiled);
+            // Fix https://github.com/dotnet-campus/dotnetCampus.UpdateAllDotNetTools/issues/3
             while (!string.IsNullOrWhiteSpace(line))
             {
                 var match = regex.Match(line);
