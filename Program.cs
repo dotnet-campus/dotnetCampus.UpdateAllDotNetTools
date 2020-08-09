@@ -13,7 +13,7 @@ namespace dotnetCampus.UpdateAllDotNetTools
         {
             Console.WriteLine("Starting update all dotnet tools");
             Console.WriteLine("Finding installed tools");
-            foreach (var temp in Parse(Command("dotnet tool list -g")))
+            foreach (var temp in Parse(Command("dotnet", "tool list -g")))
             {
                 UpdateTool(temp);
             }
@@ -23,7 +23,7 @@ namespace dotnetCampus.UpdateAllDotNetTools
 
         private static void UpdateTool(string tool)
         {
-            Console.WriteLine(Command($"dotnet tool update {tool} -g"));
+            Console.WriteLine(Command("dotnet", $"tool update {tool} -g"));
         }
 
         private static IEnumerable<string> Parse(string command)
@@ -52,17 +52,13 @@ namespace dotnetCampus.UpdateAllDotNetTools
         }
 
 
-        private static string Command(string str, string workingDirectory = null)
+        private static string Command(string fileName, string argument, string workingDirectory = null)
         {
-            Console.WriteLine(str);
+            Console.WriteLine($"{fileName} {argument}");
             if (string.IsNullOrEmpty(workingDirectory))
             {
                 workingDirectory = Environment.CurrentDirectory;
             }
-
-            var indexOfSpace = str.IndexOf(' ');
-            var fileName = indexOfSpace == -1 ? str : str.Substring(0, indexOfSpace);
-            var argument = indexOfSpace == -1 ? "" : str.Substring(indexOfSpace + 1);
 
             var p = new Process
             {
