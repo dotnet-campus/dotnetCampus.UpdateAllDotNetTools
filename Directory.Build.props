@@ -1,4 +1,5 @@
 <Project>
+  <Import Project="build\Version.props" />
   <PropertyGroup>
     <Authors>dotnet-campus</Authors>
     <Company>dotnet-campus</Company>
