@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Authors>dotnet-campus</Authors>
     <Company>dotnet-campus</Company>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)bin\$(Configuration)</PackageOutputPath>
     <LangVersion>latest</LangVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>The dotnet tool that can update all dotnet tools </Description>
