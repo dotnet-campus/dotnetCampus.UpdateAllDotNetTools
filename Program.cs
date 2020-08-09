@@ -41,6 +41,8 @@ namespace dotnetCampus.UpdateAllDotNetTools
                 line = stringReader.ReadLine();
             }
 
+            // 输入是 dotnetcampus.officedocumentzipper           1.0.2              OfficeDocumentZipper
+            // 下面代码需要返回 dotnetcampus.officedocumentzipper 用来升级
             line = stringReader.ReadLine();
             var regex = new Regex(@"(\S+)\s+", RegexOptions.Compiled);
             // Fix https://github.com/dotnet-campus/dotnetCampus.UpdateAllDotNetTools/issues/3
