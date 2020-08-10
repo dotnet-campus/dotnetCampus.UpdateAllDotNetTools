@@ -15,7 +15,14 @@ namespace dotnetCampus.UpdateAllDotNetTools
             Console.WriteLine("Finding installed tools");
             foreach (var temp in Parse(Command("dotnet", "tool list -g")))
             {
-                UpdateTool(temp);
+                try
+                {
+                    UpdateTool(temp);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
 
             Console.WriteLine("Update finished");
@@ -62,7 +69,11 @@ namespace dotnetCampus.UpdateAllDotNetTools
                 workingDirectory = Environment.CurrentDirectory;
             }
 
-            var p = new Process
+            Console.WriteLine($"FileName={fileName}");
+            Console.WriteLine($"Argument={argument}");
+            Console.WriteLine($"WorkingDirectory={workingDirectory}");
+
+            var process = new Process
             {
                 StartInfo =
                 {
@@ -79,22 +90,22 @@ namespace dotnetCampus.UpdateAllDotNetTools
                 }
             };
 
-            p.Start(); //启动程序
+            process.Start(); //启动程序
 
             const string breakLine = "\r\n";
             string output = "";
-            p.OutputDataReceived += (sender, args) =>
+            process.OutputDataReceived += (sender, args) =>
             {
                 output += args.Data + breakLine;
             };
 
-            p.ErrorDataReceived += (sender, args) =>
+            process.ErrorDataReceived += (sender, args) =>
             {
                 output += args.Data + breakLine;
             };
 
-            p.BeginOutputReadLine();
-            p.BeginErrorReadLine();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
 
             // 如果应用程序没有退出，那么 ReadToEnd 将会等待，也就是当前进程将会等待这个进程退出
             ////获取输出信息
@@ -102,12 +113,12 @@ namespace dotnetCampus.UpdateAllDotNetTools
             //output += p.StandardError.ReadToEnd();
 
             // 等待程序执行完退出进程
-            p.WaitForExit(TimeSpan.FromMinutes(1).Milliseconds); 
+            process.WaitForExit(TimeSpan.FromMinutes(1).Milliseconds); 
 
             // 第二次等待解决 OutputDataReceived 调用的坑
             // 请看官方代码 https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.process.outputdatareceived?view=netcore-3.1
-            p.WaitForExit(); 
-            p.Close();
+            process.WaitForExit(); 
+            process.Close();
 
             return output + breakLine;
         }
