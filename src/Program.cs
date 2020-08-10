@@ -15,7 +15,14 @@ namespace dotnetCampus.UpdateAllDotNetTools
             Console.WriteLine("Finding installed tools");
             foreach (var temp in Parse(Command("dotnet", "tool list -g")))
             {
-                UpdateTool(temp);
+                try
+                {
+                    UpdateTool(temp);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
 
             Console.WriteLine("Update finished");
