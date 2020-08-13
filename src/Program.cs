@@ -20,6 +20,8 @@ namespace dotnetCampus.UpdateAllDotNetTools
                 if (temp.Equals(self, StringComparison.OrdinalIgnoreCase))
                 {
                     // 最后才更新工具自身，解决 https://github.com/dotnet-campus/dotnetCampus.UpdateAllDotNetTools/issues/4
+                    // 如果上在 MAC 下，是可以删除运行的软件
+                    // 但是删除之后，调用 Process.Start 将会抛 Win32Exception 找不到自身
                 }
 
                 TryUpdate(temp);
