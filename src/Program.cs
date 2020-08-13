@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -13,19 +14,39 @@ namespace dotnetCampus.UpdateAllDotNetTools
         {
             Console.WriteLine("Starting update all dotnet tools");
             Console.WriteLine("Finding installed tools");
+            var self = @"dotnetCampus.UpdateAllDotNetTools";
             foreach (var temp in Parse(Command("dotnet", "tool list -g")))
             {
-                try
+                if (temp.Equals(self, StringComparison.OrdinalIgnoreCase))
                 {
-                    UpdateTool(temp);
+                    // 最后才更新工具自身，解决 https://github.com/dotnet-campus/dotnetCampus.UpdateAllDotNetTools/issues/4
+                    // 如果上在 MAC 下，是可以删除运行的软件
+                    // 但是删除之后，调用 Process.Start 将会抛 Win32Exception 找不到自身
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+
+                TryUpdate(temp);
+            }
+
+            // 尝试更新自身，在 MAC 设备下可以更新，在 Windows 下不能
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                // https://github.com/dotnet-campus/dotnetCampus.UpdateAllDotNetTools/issues/4
+                TryUpdate(self);
             }
 
             Console.WriteLine("Update finished");
+        }
+
+        private static void TryUpdate(string toolName)
+        {
+            try
+            {
+                UpdateTool(toolName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         private static void UpdateTool(string tool)
