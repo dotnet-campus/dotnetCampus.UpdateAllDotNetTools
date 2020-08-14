@@ -23,8 +23,10 @@ namespace dotnetCampus.UpdateAllDotNetTools
                     // 如果上在 MAC 下，是可以删除运行的软件
                     // 但是删除之后，调用 Process.Start 将会抛 Win32Exception 找不到自身
                 }
-
-                TryUpdate(temp);
+                else
+                {
+                    TryUpdate(temp);
+                }
             }
 
             // 尝试更新自身，在 MAC 设备下可以更新，在 Windows 下不能
