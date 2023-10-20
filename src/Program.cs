@@ -53,7 +53,6 @@ namespace dotnetCampus.UpdateAllDotNetTools
                 }
             }
         }
-        
 
         private static void UpdateTool(string tool, bool shouldUpdateToPrerelease)
         {
