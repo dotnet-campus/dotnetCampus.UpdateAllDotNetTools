@@ -14,7 +14,10 @@ namespace dotnetCampus.UpdateAllDotNetTools
         {
             Console.WriteLine("Starting update all dotnet tools");
             Console.WriteLine("Finding installed tools");
-            var self = @"dotnetCampus.UpdateAllDotNetTools";
+            const string self = @"dotnetCampus.UpdateAllDotNetTools";
+
+            bool shouldUpdateToPrerelease = args.Length > 0 && args[0] == "--prerelease";
+
             foreach (var temp in Parse(Command("dotnet", "tool list -g")))
             {
                 if (temp.Equals(self, StringComparison.OrdinalIgnoreCase))
@@ -37,23 +40,24 @@ namespace dotnetCampus.UpdateAllDotNetTools
             }
 
             Console.WriteLine("Update finished");
-        }
 
-        private static void TryUpdate(string toolName)
-        {
-            try
+            void TryUpdate(string toolName)
             {
-                UpdateTool(toolName);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                try
+                {
+                    UpdateTool(toolName, shouldUpdateToPrerelease);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
+        
 
-        private static void UpdateTool(string tool)
+        private static void UpdateTool(string tool, bool shouldUpdateToPrerelease)
         {
-            Console.WriteLine(Command("dotnet", $"tool update {tool} -g"));
+            Console.WriteLine(Command("dotnet", $"tool update {tool} -g{(shouldUpdateToPrerelease ? " --prerelease" : "")}"));
         }
 
         private static IEnumerable<string> Parse(string command)

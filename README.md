@@ -17,3 +17,9 @@ dotnet tool install --global dotnetCampus.UpdateAllDotNetTools
 ```
 dotnet updatealltools
 ```
+
+Or update all tools to prerelease version by:
+
+```
+dotnet UpdateAllTools --prerelease
+```
