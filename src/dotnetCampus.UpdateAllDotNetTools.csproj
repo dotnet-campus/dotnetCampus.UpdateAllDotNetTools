@@ -1,13 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
 
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-        <PackAsTool>true</PackAsTool>
-        <ToolCommandName>dotnet-updatealltools</ToolCommandName>
-    </PropertyGroup>
+    <!-- [选择要使用哪个 .NET 版本](https://docs.microsoft.com/zh-cn/dotnet/core/versions/selection) -->
+    <!-- 如果缺少所请求的主要版本，则前滚到下一个可用的更高主要版本和最低的次要版本 -->
+    <RollForward>Major</RollForward>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>dotnet-updatealltools</ToolCommandName>
+  </PropertyGroup>
 
 </Project>
