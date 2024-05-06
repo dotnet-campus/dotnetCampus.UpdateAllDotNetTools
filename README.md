@@ -1,5 +1,9 @@
 # dotnetCampus.UpdateAllDotNetTools
 
+Archive : This feature has been officially implemented by dotnet. Please use the `dotnet tool update --all` command to update all tools. See https://github.com/dotnet/sdk/pull/38996
+
+---
+
 The dotnet tool that can update all dotnet tools
 
 | Build | NuGet |
